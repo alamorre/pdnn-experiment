@@ -18,7 +18,6 @@ def demo_why_kp_explanation(
     We have time varying signals x, w.  See how different choices of kp, kd, and quantization affect our
     ability to approximate the time-varying quantity x*w.
     """
-
     rng = np.random.RandomState(seed)
 
     x = lowpass_random(n_samples=n_steps, cutoff=x_cutoff, normalize=True, rng=rng)
