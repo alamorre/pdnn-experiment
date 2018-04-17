@@ -7,7 +7,7 @@ import matplotlib.gridspec as gridspec
 
 
 def demo_visualize_k_effects(
-        a_list = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.7, 0.8, 0.9, 1.0,],
+        a_list=np.arange(0.0, 1.0, 0.001),
         rows=2,  # Rows for grid plotting
         cols=6,  # Columns for grid plotting
         cutoff=0.005,
@@ -15,7 +15,10 @@ def demo_visualize_k_effects(
         s_as_triangles=False,
         seed=1234
 ):
-    x = lowpass_random(n_samples=n_samples, cutoff=cutoff, rng=seed, normalize=True)
+    x = lowpass_random(n_samples=n_samples, cutoff=cutoff, rng=seed, normalize=True)\
+
+    #Collect means for plot
+    means = []
 
     plt.figure(figsize=(10, 6))
     plt.subplots_adjust(wspace=0.01, hspace=0.01, left=0.08, right=.98, top=.92)
@@ -30,9 +33,13 @@ def demo_visualize_k_effects(
         xc = [h(xet) for xet in xe]  # round all the x's
         xd = pid_decode(xc, kp=a, kd=a_not)  # decode the xs, 1./float(a + ki + a_not) if (a + ki + a_not)>0 else np.inf
 
-        # Form the grid plot
+        means.append(np.abs(x - xd).mean())
+        # FLIP COMMENTS FROM HERE BELOW TO GET THE OTHER PLOT
+
         this_ax = plt.subplot2grid((rows, cols), (iter // cols, iter % cols), sharex=ax, sharey=ax)
         plt.plot(xd, color='C1', label='$\hat x_t$')
+
+
 
         plt.text(.01, .01, '$\left<|x_t-\hat x_t|\\right>_t={:.2g}, \;\;\;  N={}$'.format(np.abs(x - xd).mean(),
                                                                                           int(np.sum(np.abs(xc)))),
@@ -51,16 +58,21 @@ def demo_visualize_k_effects(
         plt.plot(x, color='C0', label='$x_t$')
         plt.grid()
         plt.xlabel('$a={}$'.format(a))
-
+        #
         gs1 = gridspec.GridSpec(iter // cols, iter % cols)
         gs1.update(hspace=0.33)
-
+    #
     ax.set_xlim(0, n_samples)
     ax.set_ylim(np.min(x) * 1.1, np.max(x) * 1.1)
     handles, labels = plt.gca().get_legend_handles_labels()
-
+    #
     plt.legend(handles[::-1], labels[::-1], bbox_to_anchor=(1, 1), bbox_transform=plt.gcf().transFigure,
                ncol=len(handles[::-1]), loc='upper right')
+    #
+    # plt.ylabel('<|x^_t- x_t|>.mean()')
+    # plt.xlabel('a')
+    # plt.plot(a_list, means, 'r')
+    # plt.show()
     plt.show()
 
 
