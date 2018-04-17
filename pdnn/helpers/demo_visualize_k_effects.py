@@ -69,12 +69,12 @@ def demo_visualize_k_effects(
     plt.legend(handles[::-1], labels[::-1], bbox_to_anchor=(1, 1), bbox_transform=plt.gcf().transFigure,
                ncol=len(handles[::-1]), loc='upper right')
     #
-    # plt.ylabel('<|x^_t- x_t|>.mean()')
+    # plt.ylabel('$\left<|x_t-\hat x_t|\\right>_t$')
     # plt.xlabel('a')
     # plt.plot(a_list, means, 'r')
     # plt.show()
     plt.show()
-
+#
 
 if __name__ == '__main__':
     demo_visualize_k_effects()
