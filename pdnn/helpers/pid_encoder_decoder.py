@@ -102,7 +102,7 @@ def lowpass_random(n_samples, cutoff, n_dim=None, rng = None, normalize = False,
 
 def pid_encode(x, kp, ki=0., kd=0., quantization=None):
 
-    enc = PIDEncoder(kp=kp, ki=ki, kd=kd)
+    enc = PIDEncoder(kp=kp, ki=ki, kd=kd) # self.kp*x + self.ki*self.s + self.kd*(x-self.xp)
     pid_encoded = np.array([enc(xi) for xi in x])
     if quantization is None:
         return pid_encoded

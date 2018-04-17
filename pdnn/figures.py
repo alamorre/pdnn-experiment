@@ -34,7 +34,7 @@ def generate_figure(figure_number):
     elif figure_number==6:
         demo_plot_temporal_mnist()
     elif figure_number==7:
-        demo_kd_too_large().display_or_run()
+        demo_kd_too_large()#.display_or_run()
     elif figure_number==8:
         demo_pd_stdp_equivalence()
     else:
