@@ -28,10 +28,32 @@ class Herder(object):
         self.phi = 0.
 
     def __call__(self, x):
-        phi_prime = self.phi + x
-        s = np.round(phi_prime)
-        self.phi = phi_prime - s
-        return s
+        # ~~~~~~~~~NORMAL QUANTIZATION~~~~~~~~~~~~~~~~
+        # phi_prime = self.phi + x
+        # s = np.round(phi_prime)
+        # self.phi = phi_prime - s
+        # return s
+
+        # ~~~~~~~~~NORMAL ROUNDING~~~~~~~~~~~~~~~~~~~~
+        return round(x)
+
+        #~~~~~~~~~DOUBLE ROUNDED QUANTIZATION~~~~~~~~~
+        # temp = self.phi + x
+        # if temp < 0:
+        #     if round(temp**6) == 0:
+        #         self.phi = self.phi + x
+        #         return 0
+        #     else:
+        #         self.phi = 0.
+        #         return -1
+        # else:
+        #     if round(temp**6) == 0:
+        #         self.phi = self.phi + x
+        #         return 0
+        #     else:
+        #         self.phi = 0.
+        #         return 1
+
 
     def reset(self):
         self.phi = 0.
